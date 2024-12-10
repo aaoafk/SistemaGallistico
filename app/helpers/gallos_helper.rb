@@ -1,0 +1,2 @@
+module GallosHelper
+end

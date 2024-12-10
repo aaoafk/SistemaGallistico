@@ -1,0 +1,56 @@
+<%# app/views/gallos/index.html.erb %>
+
+<div class="container mx-auto px-4 py-8">
+  <%# Header section with title and new gallo button %>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Gallos</h1>
+    <%= link_to "Nuevo Gallo", new_gallo_path, 
+        class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" %>
+  </div>
+
+  <%# Main table section %>
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Banda</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apodo</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peso</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Género</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dueño Actual</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @gallos.each do |gallo| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <%= gallo.banda_de_ala %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <%= gallo.apodo || "Sin apodo" %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <%= "#{gallo.peso}g" %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <%= gallo.genero.titleize %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <%= gallo.dueno_actual&.nombre_completo || "Sin dueño" %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <%= link_to "Ver", gallo_path(gallo), 
+                  class: "text-blue-600 hover:text-blue-900 mr-3" %>
+              <%= link_to "Editar", edit_gallo_path(gallo), 
+                  class: "text-yellow-600 hover:text-yellow-900 mr-3" %>
+              <%= link_to "Eliminar", gallo_path(gallo), 
+                  data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" },
+                  class: "text-red-600 hover:text-red-900" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
