@@ -9,7 +9,7 @@ class HistorialDueno < ApplicationRecord
   #                                Validations                                #
   #############################################################################
   validates :fecha_inicio, presence: true
-  validates :activo, inclusion: { in: [true, false] }
+  validates :activo, inclusion: { in: [ true, false ] }
   validate :only_one_active_owner_per_gallo
 
   private

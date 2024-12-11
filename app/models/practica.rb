@@ -2,7 +2,7 @@ class Practica < ApplicationRecord
   belongs_to :gallo
   # Validation to ensure duration is present and positive
   validates :duracion, presence: true, numericality: { greater_than: 0 }
-  
+
   # Returns a formatted string representing the duration
   # Examples: "1 hour 30 minutes", "45 minutes", "90 seconds"
   def duracion_formateada
@@ -11,7 +11,7 @@ class Practica < ApplicationRecord
       # Convert to hours and minutes
       hours = duracion / 3600
       remaining_minutes = (duracion % 3600) / 60
-      
+
       if remaining_minutes > 0
         "#{hours} #{'hora'.pluralize(hours)} #{remaining_minutes} #{'minuto'.pluralize(remaining_minutes)}"
       else

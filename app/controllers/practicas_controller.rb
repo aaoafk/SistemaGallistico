@@ -1,6 +1,6 @@
 # app/controllers/practicas_controller.rb
 class PracticasController < ApplicationController
-  before_action :set_practica, only: [:show]
+  before_action :set_practica, only: [ :show, :destroy ]
 
   def index
     # For now, let's scope practices to a specific gallo if provided
@@ -11,10 +11,25 @@ class PracticasController < ApplicationController
       @practicas = Practica.all
     end
   end
+
+  def new
+    @practica = Practica.new
+  end
+
   def show
     # The @practica instance variable is set by the before_action
   end
-  private 
+
+  def destroy
+    @practica.destroy
+
+    respond_to do |format|
+      format.html { redirect_to practicas_path, notice: "Practica borrado exitosamente." }
+    end
+  end
+
+  private
+
 
   def set_practica
     @practica = Practica.find(params[:id])

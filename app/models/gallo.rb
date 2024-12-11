@@ -9,7 +9,7 @@ class Gallo < ApplicationRecord
   has_many :historial_duenos, dependent: :destroy
   has_many :duenos, through: :historial_duenos
 
-  
+
   #############################################################################
   #                                Validations                                #
   #############################################################################
@@ -34,7 +34,7 @@ class Gallo < ApplicationRecord
           fecha_fin: Time.current
         )
       end
-      
+
       # Create new ownership record
       historial_duenos.create!(
         dueno: nuevo_dueno,

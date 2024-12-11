@@ -14,7 +14,7 @@ class GallosController < ApplicationController
   def update
     @gallo = Gallo.find(params[:id])
     if @gallo.update(gallo_params)
-      redirect_to gallo_path(@gallo), notice: 'Gallo actualizado exitosamente!'
+      redirect_to gallo_path(@gallo), notice: "Gallo actualizado exitosamente!"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -40,7 +40,7 @@ class GallosController < ApplicationController
   def destroy
     @gallo = Gallo.find(params[:id])
     @gallo.destroy
-    
+
     respond_to do |format|
       format.html { redirect_to gallos_path, notice: "Gallo eliminado exitosamente." }
     end

@@ -1,35 +1,34 @@
 <%# app/views/gallos/index.html.erb %>
 
 <div class="container mx-auto px-4 py-8">
-  <%# Add an ID to the flash message container %>
-  <%= turbo_frame_tag "flash" do %>
-    <%= render "shared/flash" %>
-  <% end %>
+		<% if flash.present? %>
+				<%= render "shared/flash" %>
+		<% end %>
 
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">Gallos</h1>
-    <%= link_to "Nuevo Gallo", new_gallo_path, 
+		<div class="flex justify-between items-center mb-6">
+				<h1 class="text-2xl font-bold text-gray-900">Gallos</h1>
+				<%= link_to "Nuevo Gallo", new_gallo_path, 
         class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" %>
-  </div>
+		</div>
 
-  <div class="bg-white shadow-md rounded-lg overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-					<tr>
-							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Banda</th>
-							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apodo</th>
-							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peso</th>
-							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Género</th>
-							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dueño Actual</th>
-							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-					</tr>
-      </thead>
+		<div class="bg-white shadow-md rounded-lg overflow-hidden">
+				<table class="min-w-full divide-y divide-gray-200">
+						<thead class="bg-gray-50">
+								<tr>
+										<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Banda</th>
+										<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apodo</th>
+										<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peso</th>
+										<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Género</th>
+										<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dueño Actual</th>
+										<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+								</tr>
+						</thead>
 
-      </thead>
-      <%# Add an ID to the tbody for Turbo to target %>
-      <tbody id="gallos" class="bg-white divide-y divide-gray-200">
-        <%= render @gallos %>
-      </tbody>
-    </table>
-  </div>
+						</thead>
+						<%# Add an ID to the tbody for Turbo to target %>
+						<tbody id="gallos" class="bg-white divide-y divide-gray-200">
+								<%= render @gallos %>
+						</tbody>
+				</table>
+		</div>
 </div>

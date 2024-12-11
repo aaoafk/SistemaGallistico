@@ -1,0 +1,10 @@
+<%# app/views/shared/_nav_link.html.erb %>
+<li>
+  <%= link_to path,
+      class: "flex items-center px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-100 #{current_page?(path) ? 'bg-gray-100' : ''}" do %>
+    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= icon_path %>" />
+    </svg>
+    <span><%= title %></span>
+  <% end %>
+</li>

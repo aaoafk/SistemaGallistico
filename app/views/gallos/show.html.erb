@@ -35,7 +35,7 @@
         
         <div>
           <dt class="text-sm font-medium text-gray-500">Peso</dt>
-          <dd class="mt-1 text-sm text-gray-900"><%= "#{@gallo.peso}g" %></dd>
+          <dd class="mt-1 text-sm text-gray-900"><%= format_weight_in_lbs_oz(@gallo.peso) %></dd>
         </div>
         
         <div>

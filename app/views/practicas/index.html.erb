@@ -1,45 +1,49 @@
 <%# app/views/practicas/index.html.erb %>
 <div class="container mx-auto px-4 py-8">
-  <div class="flex justify-between items-center mb-6">
-    <div>
-      <h1 class="text-2xl font-bold text-gray-900">
-        <% if @gallo %>
-          Prácticas de <%= @gallo.apodo.presence || "Gallo ##{@gallo.banda_de_ala}" %>
-        <% else %>
-          Todas las Prácticas
-        <% end %>
-      </h1>
-    </div>
+		<% if flash.present? %>
+				<%= render "shared/flash" %>
+		<% end %>
 
-    <%= link_to "Nueva Práctica", 
+		<div class="flex justify-between items-center mb-6">
+				<div>
+						<h1 class="text-2xl font-bold text-gray-900">
+								<% if @gallo %>
+										Prácticas de <%= @gallo.apodo.presence || "Gallo ##{@gallo.banda_de_ala}" %>
+								<% else %>
+										Todas las Prácticas
+								<% end %>
+						</h1>
+				</div>
+
+				<%= link_to "Nueva Práctica", 
         (@gallo ? new_gallo_practica_path(@gallo) : new_practica_path),
-        class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" %>
-  </div>
+         class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" %>
+		</div>
 
-  <div class="bg-white shadow-md rounded-lg overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr>
-          <% unless @gallo %>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Gallo
-            </th>
-          <% end %>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Fecha
-          </th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Duración
-          </th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Acciones
-          </th>
-        </tr>
-      </thead>
+		<div class="bg-white shadow-md rounded-lg overflow-hidden">
+				<table class="min-w-full divide-y divide-gray-200">
+						<thead class="bg-gray-50">
+								<tr>
+										<% unless @gallo %>
+												<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+														Gallo
+												</th>
+										<% end %>
+										<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												Fecha
+										</th>
+										<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												Duración
+										</th>
+										<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												Acciones
+										</th>
+								</tr>
+						</thead>
 
-      <tbody class="bg-white divide-y divide-gray-200" id="practicas">
-        <%= render partial: "practica", collection: @practicas %>
-      </tbody>
-    </table>
-  </div>
+						<tbody class="bg-white divide-y divide-gray-200" id="practicas">
+								<%= render partial: "practica", collection: @practicas %>
+						</tbody>
+				</table>
+		</div>
 </div>
