@@ -5,10 +5,9 @@ class Gallo < ApplicationRecord
   #                                Associations                                #
   #############################################################################
   belongs_to :user
-  has_many :practicas
-  has_many :historial_duenos
+  has_many :practicas, dependent: :destroy
+  has_many :historial_duenos, dependent: :destroy
   has_many :duenos, through: :historial_duenos
-  has_many :practicas
 
   
   #############################################################################
