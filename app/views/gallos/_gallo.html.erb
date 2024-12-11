@@ -1,0 +1,29 @@
+<%# app/views/gallos/_gallo.html.erb %>
+<%= turbo_frame_tag gallo, refresh: "morph" do %>
+  <tr class="hover:bg-gray-50">
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+      <%= gallo.banda_de_ala %>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+      <%= gallo.apodo || "Sin apodo" %>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+      <%= "#{gallo.peso}g" %>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+      <%= gallo.genero.titleize %>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+      <%= gallo.dueno_actual&.nombre_completo || "Sin dueño" %>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+      <%= link_to "Ver", gallo_path(gallo), 
+          class: "text-blue-600 hover:text-blue-900 mr-3" %>
+      <%= link_to "Editar", edit_gallo_path(gallo), 
+          class: "text-yellow-600 hover:text-yellow-900 mr-3" %>
+      <%= link_to "Eliminar", gallo_path(gallo), 
+          data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" },
+          class: "text-red-600 hover:text-red-900" %>
+    </td>
+  </tr>
+<% end %>

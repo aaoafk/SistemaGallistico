@@ -1,0 +1,73 @@
+<%# app/views/gallos/show.html.erb %>
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+  <%# Header with back button and actions %>
+  <div class="flex justify-between items-center mb-6">
+    <div class="flex items-center space-x-4">
+      <%= link_to gallos_path, class: "text-gray-600 hover:text-gray-900" do %>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+      <% end %>
+      <h1 class="text-2xl font-bold text-gray-900">
+        <%= @gallo.apodo.present? ? @gallo.apodo : "Gallo ##{@gallo.banda_de_ala}" %>
+      </h1>
+    </div>
+    
+    <div class="flex space-x-4">
+      <%= link_to "Editar", edit_gallo_path(@gallo), 
+          class: "bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg" %>
+      <%= link_to "Eliminar", gallo_path(@gallo), 
+          class: "bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg",
+          data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" } %>
+    </div>
+  </div>
+
+  <%# Main content grid %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <%# Basic Information Card %>
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Información Básica</h2>
+      <dl class="space-y-3">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Banda de Ala</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @gallo.banda_de_ala %></dd>
+        </div>
+        
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Peso</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= "#{@gallo.peso}g" %></dd>
+        </div>
+        
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Género</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @gallo.genero.titleize %></dd>
+        </div>
+
+        <% if @gallo.apodo.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Apodo</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @gallo.apodo %></dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+
+    <%# Ownership Information Card %>
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Información de Propiedad</h2>
+      <% if @gallo.dueno_actual %>
+        <div class="mb-4">
+          <h3 class="text-sm font-medium text-gray-500">Dueño Actual</h3>
+          <p class="mt-1 text-sm text-gray-900">
+            <%= @gallo.dueno_actual.nombre_completo %>
+          </p>
+        </div>
+        <%# We could add ownership date here if needed %>
+      <% else %>
+        <p class="text-sm text-gray-500 italic">Sin dueño registrado</p>
+      <% end %>
+    </div>
+
+    <%# TODO: Additional sections like Practice History could be added here %>
+  </div>
+</div>
