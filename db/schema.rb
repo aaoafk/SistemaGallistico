@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_10_222849) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_11_153904) do
   create_table "duenos", force: :cascade do |t|
     t.string "nombre"
     t.string "apellido"
@@ -43,7 +43,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_10_222849) do
 
   create_table "practicas", force: :cascade do |t|
     t.datetime "fecha"
-    t.datetime "duracion"
+    t.integer "duracion"
     t.integer "gallo_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

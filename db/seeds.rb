@@ -43,3 +43,30 @@ Gallo.all.sample(10).each do |gallo|
     activo: true
   )
 end
+
+# After creating gallos and owners, let's add practice sessions
+# We'll only create practices for some of the roosters to simulate reality
+
+# Select 12 random roosters (60% of total) to have practice sessions
+active_gallos = Gallo.all.sample(12)
+
+active_gallos.each do |gallo|
+  practice_count = rand(3..8)
+  starting_date = 3.months.ago
+  
+  practice_count.times do |i|
+    practice_date = starting_date + (i * rand(3..10)).days
+    
+    # Duration will now be stored in seconds
+    # Converting our 15-45 minute range to seconds
+    practice_duration = rand(15..45) * 60  # multiply by 60 to convert minutes to seconds
+    
+    Practica.create!(
+      gallo: gallo,
+      fecha: practice_date,
+      duracion: practice_duration,
+      created_at: practice_date,
+      updated_at: practice_date
+    )
+  end
+end

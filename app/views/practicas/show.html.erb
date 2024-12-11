@@ -1,0 +1,83 @@
+<%# app/views/practicas/show.html.erb %>
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+  <%# Header with navigation and actions %>
+  <div class="flex justify-between items-center mb-6">
+    <div class="flex items-center space-x-4">
+      <h1 class="text-2xl font-bold text-gray-900">
+        Detalles de Práctica
+      </h1>
+    </div>
+
+    <div class="flex space-x-4">
+      <%= link_to "Editar", edit_practica_path(@practica), 
+          class: "bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg" %>
+      <%= link_to "Eliminar", practica_path(@practica),
+          class: "bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg",
+          data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" } %>
+    </div>
+  </div>
+
+  <%# Main content grid %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <%# Practice Information Card %>
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Información de la Práctica</h2>
+      <dl class="space-y-3">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Fecha</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= l @practica.fecha, format: :long %>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Duración</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= @practica.duracion_formateada %>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Creado</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= l @practica.created_at, format: :long %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <%# Gallo Information Card %>
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Información del Gallo</h2>
+      <dl class="space-y-3">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Banda de Ala</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= @practica.gallo.banda_de_ala %>
+          </dd>
+        </div>
+
+        <% if @practica.gallo.apodo.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Apodo</dt>
+            <dd class="mt-1 text-sm text-gray-900">
+              <%= @practica.gallo.apodo %>
+            </dd>
+          </div>
+        <% end %>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Peso</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= "#{@practica.gallo.peso}g" %>
+          </dd>
+        </div>
+
+        <div class="pt-2">
+          <%= link_to "Ver Gallo", gallo_path(@practica.gallo), 
+              class: "text-blue-600 hover:text-blue-900" %>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>
