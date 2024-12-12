@@ -54,21 +54,21 @@ class Gallo < ApplicationRecord
   end
   def convert_weight_to_grams
     return unless weight_pounds.present? || weight_ounces.present?
-    
+
     # Convert string inputs to integers, defaulting to 0 if blank
     pounds = weight_pounds.to_i
     ounces = weight_ounces.to_i
-    
+
     # Convert to grams (1 pound = 453.592 grams, 1 ounce = 28.3495 grams)
     self.peso = (pounds * 453.592 + ounces * 28.3495).round
   end
-  
+
   def set_weight_parts
     return unless peso
-    
+
     # Convert grams to total ounces
     total_ounces = (peso / 28.3495).round
-    
+
     # Split into pounds and remaining ounces
     self.weight_pounds = total_ounces / 16
     self.weight_ounces = total_ounces % 16

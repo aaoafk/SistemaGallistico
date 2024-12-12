@@ -1,6 +1,6 @@
 # app/controllers/practicas_controller.rb
 class PracticasController < ApplicationController
-  before_action :set_practica, only: [ :show, :destroy, :edit]
+  before_action :set_practica, only: [ :show, :destroy, :edit ]
 
   def index
     # For now, let's scope practices to a specific gallo if provided
@@ -21,14 +21,14 @@ class PracticasController < ApplicationController
   end
 
   def edit
-    # The @practica instance variable is set by the before_action 
+    # The @practica instance variable is set by the before_action
   end
 
   def create
     @practica = Practica.new(practica_params)
-    
+
     if @practica.save
-      redirect_to practicas_path, notice: 'Práctica creada exitosamente!'
+      redirect_to practicas_path, notice: "Práctica creada exitosamente!"
     else
       render :new, status: :unprocessable_entity
     end

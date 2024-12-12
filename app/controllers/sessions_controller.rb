@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by(correo: user_params[:correo])
-  
+
     if @user&.authenticate(user_params[:password])
       sign_in(@user)
       redirect_to gallos_path, notice: "Sesión iniciada exitosamente!"
