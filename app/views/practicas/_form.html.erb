@@ -1,0 +1,60 @@
+<%# app/views/practicas/_form.html.erb %>
+<%= form_with(model: practica, class: "space-y-6") do |form| %>
+		<% if practica.errors.any? %>
+				<div class="bg-red-50 p-4 rounded-md">
+						<h2 class="text-red-800 text-sm font-medium">
+								<%= pluralize(practica.errors.count, "error") %> prohibited this practica from being saved:
+						</h2>
+						<ul class="mt-2 text-red-700 text-sm list-disc list-inside">
+								<% practica.errors.full_messages.each do |msg| %>
+										<li><%= msg %></li>
+								<% end %>
+						</ul>
+				</div>
+		<% end %>
+
+		<%# Gallo Selection with Select2 %>
+		<div>
+				<%= form.label :gallo_id, "Gallo", class: "block text-sm font-medium text-gray-700 mb-1" %>
+				<%= form.select :gallo_id,
+					 options_from_collection_for_select(
+							 Gallo.all,
+							 :id,
+							 ->(gallo) { "#{gallo.banda_de_ala} #{gallo.apodo if gallo.apodo.present?}" },
+							 practica.gallo_id
+					 ),
+         { include_blank: "Selecciona un gallo" },
+         {
+						 class: "gallo-select w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
+						 data: { controller: "select" }
+         }
+				%>
+		</div>
+
+		<%# Date Selection %>
+		<div>
+				<%= form.label :fecha, class: "block text-sm font-medium text-gray-700 mb-1" %>
+				<%= form.datetime_field :fecha,
+						value: practica.fecha || Time.current,
+						class: "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+		</div>
+
+		<%# Duration in Minutes %>
+		<div>
+				<%= form.label :duracion_en_minutos, "Duración (minutos)", 
+						class: "block text-sm font-medium text-gray-700 mb-1" %>
+				<%= form.number_field :duracion_en_minutos,
+         class: "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
+         min: 1,
+         step: 1 %>
+		</div>
+
+		<%# Form Actions %>
+		<div class="flex items-center justify-end space-x-4 pt-4">
+				<%= link_to "Cancelar",
+						practicas_path,
+						class: "px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900" %>
+				<%= form.submit "Crear Práctica",
+						class: "px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+		</div>
+<% end %>
