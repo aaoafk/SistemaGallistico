@@ -11,7 +11,8 @@
 
 # First, let's create a test user who will own these roosters
 user = User.create!(
-  correo: 'criador@example.com'
+  correo: 'criador@example.com',
+  password: 'password'
 )
 
 # Let's create 20 roosters with varying characteristics

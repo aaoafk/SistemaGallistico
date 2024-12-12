@@ -49,6 +49,6 @@ class GallosController < ApplicationController
   private
 
   def gallo_params
-    params.require(:gallo).permit(:banda_de_ala, :peso, :genero, :apodo)
+    params.require(:gallo).permit(:banda_de_ala, :weight_pounds, :weight_ounces, :genero, :apodo)
   end
 end
