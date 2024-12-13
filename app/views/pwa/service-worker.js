@@ -1,3 +1,9 @@
+// Load workbox runtime without a build step
+
+importScripts(
+  'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js'
+);
+
 function onInstall(event) {
   console.log('[Serviceworker]', "Installing!", event);
 }
@@ -9,6 +15,7 @@ function onActivate(event) {
 function onFetch(event) {
   console.log('[Serviceworker]', "Fetching!", event);
 }
+
 self.addEventListener('install', onInstall);
 self.addEventListener('activate', onActivate);
 self.addEventListener('fetch', onFetch);
