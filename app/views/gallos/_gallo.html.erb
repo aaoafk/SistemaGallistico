@@ -17,13 +17,7 @@
 						<%= gallo.dueno_actual&.nombre_completo || "Sin dueño" %>
 				</td>
 				<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-						<%= link_to "Ver", gallo_path(gallo), 
-						class: "text-blue-600 hover:text-blue-900 mr-3" %>
-						<%= link_to "Editar", edit_gallo_path(gallo), 
-						class: "text-yellow-600 hover:text-yellow-900 mr-3" %>
-						<%= link_to "Eliminar", gallo_path(gallo), 
-						data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" },
-						 class: "text-red-600 hover:text-red-900" %>
+						<%= render "gallo_actions", gallo: gallo %>
 				</td>
 		</tr>
 </div>

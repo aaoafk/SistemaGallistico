@@ -1,0 +1,25 @@
+<div class="bg-white shadow rounded-lg p-4">
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <p class="text-sm font-medium text-gray-500">Banda</p>
+            <p class="mt-1"><%= gallo.banda_de_ala %></p>
+        </div>
+        <div>
+            <p class="text-sm font-medium text-gray-500">Apodo</p>
+            <p class="mt-1"><%= gallo.apodo %></p>
+        </div>
+        <div>
+            <p class="text-sm font-medium text-gray-500">Peso</p>
+            <p class="mt-1"><%= gallo.peso %></p>
+        </div>
+        <div>
+            <p class="text-sm font-medium text-gray-500">Género</p>
+            <p class="mt-1"><%= gallo.genero %></p>
+        </div>
+        <div class="col-span-2">
+            <p class="text-sm font-medium text-gray-500">Dueño Actual</p>
+            <p class="mt-1"><%= gallo.dueno_actual&.nombre_completo %></p>
+        </div>
+        <%= render "gallo_actions", gallo: gallo %>
+    </div>
+</div>

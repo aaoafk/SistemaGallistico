@@ -1,30 +1,22 @@
 <%# app/views/practicas/_practica.html.erb %>
-<%= turbo_frame_tag practica do %>
-  <tr class="hover:bg-gray-50">
-    <% unless @gallo %>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-        <%= link_to practica.gallo.apodo.presence || "##{practica.gallo.banda_de_ala}",
-            gallo_path(practica.gallo),
-            class: "text-blue-600 hover:text-blue-900" %>
-      </td>
-    <% end %>
-    
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-      <%= l practica.fecha, format: :long %>
-    </td>
-    
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-      <%= practica.duracion_formateada %>
-    </td>
-    
-    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-      <%= link_to "Ver", practica_path(practica), 
-          class: "text-blue-600 hover:text-blue-900 mr-3" %>
-      <%= link_to "Editar", edit_practica_path(practica), 
-          class: "text-yellow-600 hover:text-yellow-900 mr-3" %>
-      <%= link_to "Eliminar", practica_path(practica),
-          class: "text-red-600 hover:text-red-900",
-          data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" } %>
-    </td>
-  </tr>
-<% end %>
+<tr class="hover:bg-gray-50">
+		<% unless @gallo %>
+				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+						<%= link_to practica.gallo.apodo.presence || "##{practica.gallo.banda_de_ala}",
+						 gallo_path(practica.gallo),
+						 class: "text-blue-600 hover:text-blue-900" %>
+				</td>
+		<% end %>
+		
+		<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+				<%= l practica.fecha, format: :long %>
+		</td>
+		
+		<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+				<%= practica.duracion_formateada %>
+		</td>
+		
+		<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+				<%= render "practica_actions", practica: practica %>
+		</td>
+</tr>

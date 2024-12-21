@@ -1,0 +1,27 @@
+<%# app/views/practicas/_practica_card.html.erb %>
+<div class="bg-white shadow rounded-lg p-4">
+    <div class="space-y-3">
+        <% unless @gallo %>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Gallo</p>
+                <p class="mt-1">
+                    <%= link_to practica.gallo.apodo.presence || "##{practica.gallo.banda_de_ala}",
+                        gallo_path(practica.gallo),
+                        class: "text-blue-600 hover:text-blue-900" %>
+                </p>
+            </div>
+        <% end %>
+        
+        <div>
+            <p class="text-sm font-medium text-gray-500">Fecha</p>
+            <p class="mt-1"><%= l practica.fecha, format: :long %></p>
+        </div>
+        
+        <div>
+            <p class="text-sm font-medium text-gray-500">Duración</p>
+            <p class="mt-1"><%= practica.duracion_formateada %></p>
+        </div>
+
+        <%= render "practica_actions", practica: practica %>
+    </div>
+</div>
