@@ -23,6 +23,16 @@ class Gallo < ApplicationRecord
   validates :genero, presence: true
   before_validation :convert_weight_to_grams
 
+  #############################################################################
+  #                    Ransack is used to search the model                    #
+  #############################################################################
+  def self.ransackable_attributes(auth_object = nil)
+    [ "apodo", "banda_de_ala" ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    [ "duenos", "historial_duenos", "practicas", "user" ]
+  end
   after_find :set_weight_parts
   after_initialize :set_weight_parts
 
@@ -72,5 +82,10 @@ class Gallo < ApplicationRecord
     # Split into pounds and remaining ounces
     self.weight_pounds = total_ounces / 16
     self.weight_ounces = total_ounces % 16
+  end
+
+  private
+  ransacker :banda_de_ala do
+    Arel.sql("cast(#{table_name}.banda_de_ala as CHAR)")
   end
 end

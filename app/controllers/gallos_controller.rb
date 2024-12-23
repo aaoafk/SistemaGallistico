@@ -1,6 +1,7 @@
 class GallosController < ApplicationController
   def index
-    @gallos = Gallo.all
+    @q = Gallo.ransack(params[:q])
+    @gallos = @q.result(distinct: true)
   end
 
   def show
