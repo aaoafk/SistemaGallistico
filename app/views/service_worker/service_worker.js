@@ -1,5 +1,4 @@
 // Load workbox runtime without a build step
-
 importScripts(
   'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js'
 )
@@ -28,7 +27,7 @@ const { StaleWhileRevalidate } = workbox.strategies
 registerRoute(new RegExp('/styles/.*\\.css'), new StaleWhileRevalidate({ cacheName: 'styles-css' }))
 registerRoute(new RegExp('/assets/.*\\.js'), new StaleWhileRevalidate({ cacheName: 'assets-js' }))
 registerRoute(new RegExp('/assets/.*\\.css'), new StaleWhileRevalidate({ cacheName: 'assets-css' }))
-registerRoute(new RegExp('/assets/.*\\.woff2'), new StaleWhileRevaildate({ cacheName: 'assets-fonts' }))
+registerRoute(new RegExp('/assets/.*\\.woff2'), new StaleWhileRevalidate({ cacheName: 'assets-fonts' }))
 registerRoute(new RegExp('/assets/.*\\.ico'), new StaleWhileRevalidate({ cacheName: 'assets-ico' }))
 
 /// ////////////////////////////////////////////////////////////////////////////
@@ -65,6 +64,7 @@ function onActivate (event) {
 
 function onFetch (event) {
   const { request } = event
+  logServiceWorkerStatus(`Current request: ${request}`)
   logServiceWorkerStatus(`Fetching url: ${request.url}. Using cache: ${request.cache}`)
 }
 

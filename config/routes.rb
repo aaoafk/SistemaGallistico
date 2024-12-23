@@ -11,8 +11,9 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-  get "/service-worker.js" => "service_worker#service_worker"
-  get "/manifest.json" => "service_worker#manifest"
+  get "service-worker" => "service_worker#service_worker"
+  get "manifest" => "service_worker#manifest"
+  get "offline" => "service_worker#offline"
 
   # Defines the root path route ("/")
   root "sessions#new"
