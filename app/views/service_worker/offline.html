@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sin Conexión - SistemaGallistico</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
     <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
         <div class="mb-6">
-            <!-- Icono de gallo usando emoji como ejemplo -->
             <span class="text-6xl">🐓</span>
         </div>
         
@@ -22,11 +22,25 @@
             Los datos de tus gallos se sincronizarán cuando vuelvas a estar en línea.
         </p>
         
-        <button onclick="window.location.reload()" 
-                class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-md 
-                       hover:bg-blue-700 transition duration-200">
-            Intentar de Nuevo
-        </button>
+        <div class="space-y-4">
+            <button onclick="window.location.reload()" 
+                    class="w-full bg-blue-600 text-white font-semibold px-6 py-2 rounded-md 
+                           hover:bg-blue-700 transition duration-200">
+                Intentar de Nuevo
+            </button>
+            
+            <a href="/gallos" 
+               class="w-full inline-block bg-gray-200 text-gray-800 font-semibold px-6 py-2 rounded-md 
+                      hover:bg-gray-300 transition duration-200">
+                Ver Mis Gallos
+            </a>
+            
+            <a href="/practicas" 
+               class="w-full inline-block bg-gray-200 text-gray-800 font-semibold px-6 py-2 rounded-md 
+                      hover:bg-gray-300 transition duration-200">
+                Mis Prácticas
+            </a>
+        </div>
     </div>
 </body>
 </html>
