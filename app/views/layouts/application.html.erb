@@ -100,6 +100,8 @@
 
 				<!-- Main Content - pushed right on desktop -->
 				<main class="<%= current_user ? 'md:ml-64 pt-16 md:pt-0' : 'min-h-screen' %>">
+						<!-- Used to push validation messages when offline -->
+						<div class="error-container"></div>
 						<div class="container mx-auto px-4 py-8">
 								<%= yield %>
 						</div>

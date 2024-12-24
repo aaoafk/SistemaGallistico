@@ -1,5 +1,5 @@
 <%# app/views/gallos/_form.html.erb %>
-<%= form_with(model: gallo, class: "space-y-6") do |form| %>
+<%= form_with(model: gallo, class: "space-y-6", data: { controller: "gallos-offline", action: "submit->gallos-offline#submit"}) do |form| %>
   <%# Display error messages if any %>
   <% if gallo.errors.any? %>
     <div class="bg-red-50 p-4 rounded-md">
