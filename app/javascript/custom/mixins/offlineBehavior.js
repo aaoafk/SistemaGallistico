@@ -78,8 +78,8 @@ export const offlineBehavior = controller => {
         // Prevent default form submission
         event.preventDefault()
 
-				// Scaffold Offline UI
-				this.notifyOfflineMode()
+        // Scaffold Offline UI
+        this.notifyOfflineMode()
 
         // Optionally save form data for later submission
         await this.saveFormData(event)
@@ -92,18 +92,18 @@ export const offlineBehavior = controller => {
       // If online, proceed with normal submission
       const userIsConnectedToInternet = await this.isOnline()
       if (userIsConnectedToInternet) {
-				return;
+
       } else {
         // Intialize connection to IDBDatabase
         const idbConnected = await this.IDBConnect()
         if (idbConnected) {
           // Collect form data
           // Get everything from the form
-					const data = Object.fromEntries(new FormData(event.target).entries())
-					console.log('Captured form data:');
-					for (const [key, value] of Object.entries(data)) {
-						console.log(`${key}: ${value}`);
-					}
+          const data = Object.fromEntries(new FormData(event.target).entries())
+          console.log('Captured form data:')
+          for (const [key, value] of Object.entries(data)) {
+            console.log(`${key}: ${value}`)
+          }
           // Validate form
           const validationResult = this.checkFormValid(data)
 
@@ -129,38 +129,38 @@ export const offlineBehavior = controller => {
       }
     },
     checkFormValid (formData) {
-			// Transform FormData keys to remove the 'gallo[...]' prefix
-			const transformedData = Object.fromEntries(
-				Object.entries(formData).map(([key, value]) => {
-					// Remove 'gallo[' from the start and ']' from the end
-					const cleanKey = key.replace(/^gallo\[|\]$/g, '');
-					return [cleanKey, value];
-				})
-			);
+      // Transform FormData keys to remove the 'gallo[...]' prefix
+      const transformedData = Object.fromEntries(
+        Object.entries(formData).map(([key, value]) => {
+          // Remove 'gallo[' from the start and ']' from the end
+          const cleanKey = key.replace(/^gallo\[|\]$/g, '')
+          return [cleanKey, value]
+        })
+      )
 
-			// Create temporary Gallo object with cleaned data
-			const tempGallo = {
-				banda_de_ala: transformedData.banda_de_ala,
-				weight_pounds: transformedData.weight_pounds,
-				weight_ounces: transformedData.weight_ounces,
-				genero: transformedData.genero,
-				apodo: transformedData.apodo,
-				
-				// Method to simulate Rails validation errors
-				errors: {
-					base: [],
-					add(field, message) {
-						this.base.push({ field, message });
-					}
-				}
-			};
+      // Create temporary Gallo object with cleaned data
+      const tempGallo = {
+        banda_de_ala: transformedData.banda_de_ala,
+        weight_pounds: transformedData.weight_pounds,
+        weight_ounces: transformedData.weight_ounces,
+        genero: transformedData.genero,
+        apodo: transformedData.apodo,
 
-			// Optional: Logging to verify data
-			for (const [key, value] of Object.entries(tempGallo)) {
-				if (key !== 'errors') {
-					console.log(`checkFormValid :: tempGallo :: ${key}: ${value}`);
-				}
-			}
+        // Method to simulate Rails validation errors
+        errors: {
+          base: [],
+          add (field, message) {
+            this.base.push({ field, message })
+          }
+        }
+      }
+
+      // Optional: Logging to verify data
+      for (const [key, value] of Object.entries(tempGallo)) {
+        if (key !== 'errors') {
+          console.log(`checkFormValid :: tempGallo :: ${key}: ${value}`)
+        }
+      }
 
       // Validate required fields
       const validations = [
@@ -222,77 +222,77 @@ export const offlineBehavior = controller => {
         errors: tempGallo.errors.base
       }
     },
-		notifyOfflineMode() {
-			// Async method to handle offline notification
-			const setupOfflineBanner = async () => {
-				// Check if actually offline using our custom method
-				const isOffline = !(await this.isOnline());
-				
-				if (!isOffline) return;
+    notifyOfflineMode () {
+      // Async method to handle offline notification
+      const setupOfflineBanner = async () => {
+        // Check if actually offline using our custom method
+        const isOffline = !(await this.isOnline())
 
-				// Find the offline notifications container
-				const notificationsContainer = document.querySelector('#offline-notifications');
-				
-				// If container doesn't exist, create and append it
-				if (!notificationsContainer) {
-					const container = document.createElement('div');
-					container.id = 'offline-notifications';
-					container.className = `
+        if (!isOffline) return
+
+        // Find the offline notifications container
+        const notificationsContainer = document.querySelector('#offline-notifications')
+
+        // If container doesn't exist, create and append it
+        if (!notificationsContainer) {
+          const container = document.createElement('div')
+          container.id = 'offline-notifications'
+          container.className = `
         fixed top-0 left-0 w-full z-50
-      `;
-					document.body.appendChild(container);
-				}
+      `
+          document.body.appendChild(container)
+        }
 
-				// Check if a banner already exists
-				const existingBanner = document.querySelector('#offline-banner');
-				if (existingBanner) return;
+        // Check if a banner already exists
+        const existingBanner = document.querySelector('#offline-banner')
+        if (existingBanner) return
 
-				// Create offline banner
-				const banner = document.createElement('div');
-				banner.id = 'offline-banner';
-				banner.className = `
+        // Create offline banner
+        const banner = document.createElement('div')
+        banner.id = 'offline-banner'
+        banner.className = `
       bg-yellow-500 text-white 
       p-3 text-center flex items-center justify-center 
       shadow-lg transition-all duration-300 ease-in-out
-    `;
-				
-				// Banner content with cloud icon and message
-				banner.innerHTML = `
+    `
+
+        // Banner content with cloud icon and message
+        banner.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
       </svg>
       Estás trabajando sin conexión. Tus cambios se guardarán y sincronizarán cuando vuelvas a estar en línea.
-    `;
+    `
 
-				notificationsContainer.appendChild(banner);
+        notificationsContainer.appendChild(banner)
 
-				// Optional: Method to check and remove banner when online
-				const checkAndRemoveBanner = async () => {
-					const online = await this.isOnline();
-					if (online) {
-						banner.classList.add('opacity-0', '-translate-y-full');
-						setTimeout(() => {
-							notificationsContainer.removeChild(banner);
-						}, 300);
-					}
-				};
+        // Optional: Method to check and remove banner when online
+        const checkAndRemoveBanner = async () => {
+          const online = await this.isOnline()
+          if (online) {
+            banner.classList.add('opacity-0', '-translate-y-full')
+            setTimeout(() => {
+              notificationsContainer.removeChild(banner)
+            }, 300)
+          }
+        }
 
-				// Periodically check online status
-				const offlineCheckInterval = setInterval(async () => {
-					await checkAndRemoveBanner();
-				}, 5000); // Check every 5 seconds
+        // Periodically check online status
+        const offlineCheckInterval = setInterval(async () => {
+          await checkAndRemoveBanner()
+        }, 5000) // Check every 5 seconds
 
-				// Clear interval if banner is removed
-				banner.addEventListener('remove', () => {
-					clearInterval(offlineCheckInterval);
-				});
+        // Clear interval if banner is removed
+        banner.addEventListener('remove', () => {
+          clearInterval(offlineCheckInterval)
+        })
 
-				return banner;
-			};
+        return banner
+      }
 
-			// Initiate offline banner setup
-			setupOfflineBanner();
-		},
+      // Initiate offline banner setup
+      setupOfflineBanner()
+    },
     // Helper method to display validation errors
     displayValidationErrors (errors) {
       // Clear previous errors
