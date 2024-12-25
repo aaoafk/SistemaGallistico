@@ -29,12 +29,25 @@ class GallosController < ApplicationController
     @gallo = Gallo.new(gallo_params)
     @gallo.user = User.first
 
-    if @gallo.save
-      respond_to do |format|
+    respond_to do |format|
+      if @gallo.save
         format.html { redirect_to gallos_path, notice: "Gallo creado exitosamente." }
+        format.json { 
+          render json: { 
+                   status: 'success', 
+                   message: "Gallo creado exitosamente.", 
+                   gallo: @gallo 
+                 }, status: :created 
+        }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { 
+          render json: { 
+                   status: 'error', 
+                   errors: @gallo.errors.full_messages 
+                 }, status: :unprocessable_entity 
+        }
       end
-    else
-      render :new, status: :unprocessable_entity
     end
   end
 

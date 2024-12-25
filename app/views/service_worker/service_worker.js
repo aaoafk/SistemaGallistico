@@ -1,9 +1,8 @@
 // Load workbox runtime without a build step
 importScripts(
-  'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js'
+  'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js',
+	'https://cdn.jsdelivr.net/npm/idb@8.0.1/build/umd.min.js'
 )
-
-import { openDB } from "idb"
 
 /// ////////////////////////////////////////////////////////////////////////////
 //                             Routing & Caching                              //
@@ -74,23 +73,74 @@ function logServiceWorkerStatus (msg) {
   console.log(`[ServiceWorker] :: ${msg}`)
 }
 
-function syncOfflineFormData() {
-	// Get all records persisted into indexedDB
-	const db = await openDB('sg-app-db')
-	if (db) {
-		const persistedOfflineForms = await db.getAllFromIndex('persisted-offline-form-data', 'submittedAt')
-		if (persistedOfflineForms) {
-			// Post each of these to server
-			persistedOfflineForms.forEach(prettyPrintRecord(el))
-			const prettyPrintRecord = (d) => {
-				for(const [k,v] of Object.entries(d)) { console.log(`${k}: ${v}:`)}
-			}
-		} else {
-			console.error('persistedOfflineForms does not contain a value')
-		}
-	} else {
-		console.error('Failed to openDB()')
-	}
+// Define pretty print function outside of the main function
+function prettyPrintRecord(d) {
+  for (const [k, v] of Object.entries(d)) {
+    console.log(`${k}: ${v}`);
+  }
+}
+
+async function syncOfflineFormData() {
+  try {
+    // Open the database
+    const db = await idb.openDB('sg-app-db');
+    
+    // Retrieve persisted offline forms
+    const persistedOfflineForms = await db.getAllFromIndex(
+      'persisted-offline-form-data', 
+      'submittedAt'
+    );
+
+    // Check if there are any offline forms to sync
+    if (persistedOfflineForms && persistedOfflineForms.length > 0) {
+      // Transform form data to match Rails expectations
+      const submissions = persistedOfflineForms.map(async (formData) => {
+        try {
+          // Create a new object in the Rails-expected format
+          const railsFormData = {
+            authenticity_token: formData.authenticity_token,
+            gallo: {
+              banda_de_ala: formData['gallo[banda_de_ala]'] || formData.banda_de_ala,
+              weight_pounds: formData['gallo[weight_pounds]'] || formData.weight_pounds,
+              weight_ounces: formData['gallo[weight_ounces]'] || formData.weight_ounces,
+              genero: formData['gallo[genero]'] || formData.genero,
+              apodo: formData['gallo[apodo]'] || formData.apodo
+            }
+          };
+
+          // Submission with appropriate headers
+          const response = await fetch('/gallos', {
+            method: 'POST',
+            body: JSON.stringify(railsFormData),
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            }
+          });
+
+          if (!response.ok) {
+            // Parse error response for more detailed information
+            const errorBody = await response.text();
+            throw new Error(`Submission failed: ${errorBody}`);
+          }
+
+          // If successful, remove the record from IndexedDB
+          await db.delete('persisted-offline-form-data', formData.id);
+        } catch (submissionError) {
+          console.error('Failed to submit offline form:', submissionError);
+          // Optionally, mark the record for later retry
+        }
+      });
+
+      // Wait for all submissions to complete
+      await Promise.all(submissions);
+
+    } else {
+      console.log('No offline forms to synchronize');
+    }
+  } catch (error) {
+    console.error('Error during offline form synchronization:', error);
+  }
 }
 
 function onSync(event) {
