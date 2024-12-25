@@ -58,6 +58,7 @@ export const offlineBehavior = controller => {
                   // If it isn't explicitly set, create by value by auto incrementing
                   autoIncrement: true
                 })
+                store.createIndex('submittedAt', 'submittedAt')
               }
             }
           })
@@ -81,7 +82,7 @@ export const offlineBehavior = controller => {
         // Scaffold Offline UI
         this.notifyOfflineMode()
 
-        // Optionally save form data for later submission
+        // Save form data for later submission
         await this.saveFormData(event)
       } else {
         console.log('User is online...Allowing online form submit.')
@@ -119,12 +120,12 @@ export const offlineBehavior = controller => {
               ...data,
               submittedAt: Date.now()
             })
-
-            return false // Prevent default form submission
           } catch (error) {
             console.error('Failed to save offline form data', error)
             return false
           }
+        } else {
+          console.error('Failed to intialize connection to IndexedDB.')
         }
       }
     },
@@ -263,7 +264,6 @@ export const offlineBehavior = controller => {
       </svg>
       Estás trabajando sin conexión. Tus cambios se guardarán y sincronizarán cuando vuelvas a estar en línea.
     `
-
         notificationsContainer.appendChild(banner)
 
         // Optional: Method to check and remove banner when online

@@ -1,5 +1,5 @@
 // app/javascript/custom/companion.js
-// This is easier to understand
+
 if (navigator.serviceWorker) {
   navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
     .then(serviceWorkerReady)

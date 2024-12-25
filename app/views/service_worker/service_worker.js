@@ -3,6 +3,8 @@ importScripts(
   'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js'
 )
 
+import { openDB } from "idb"
+
 /// ////////////////////////////////////////////////////////////////////////////
 //                             Routing & Caching                              //
 /// ////////////////////////////////////////////////////////////////////////////
@@ -72,6 +74,32 @@ function logServiceWorkerStatus (msg) {
   console.log(`[ServiceWorker] :: ${msg}`)
 }
 
+function syncOfflineFormData() {
+	// Get all records persisted into indexedDB
+	const db = await openDB('sg-app-db')
+	if (db) {
+		const persistedOfflineForms = await db.getAllFromIndex('persisted-offline-form-data', 'submittedAt')
+		if (persistedOfflineForms) {
+			// Post each of these to server
+			persistedOfflineForms.forEach(prettyPrintRecord(el))
+			const prettyPrintRecord = (d) => {
+				for(const [k,v] of Object.entries(d)) { console.log(`${k}: ${v}:`)}
+			}
+		} else {
+			console.error('persistedOfflineForms does not contain a value')
+		}
+	} else {
+		console.error('Failed to openDB()')
+	}
+}
+
+function onSync(event) {
+  // Implement
+	if (event.tag === 'sync-forms') {
+		event.waitUntil(syncOfflineFormData())
+	}
+}
 self.addEventListener('install', onInstall)
 self.addEventListener('activate', onActivate)
 self.addEventListener('fetch', onFetch)
+self.addEventListener('sync', onSync)
