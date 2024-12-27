@@ -18,7 +18,7 @@ class Gallo < ApplicationRecord
   #############################################################################
   #                                Validations                                #
   #############################################################################
-  validates :banda_de_ala, presence: true
+  validates :placa, presence: true
   validates :peso, presence: true
   validates :genero, presence: true
   before_validation :convert_weight_to_grams
@@ -27,7 +27,7 @@ class Gallo < ApplicationRecord
   #                    Ransack is used to search the model                    #
   #############################################################################
   def self.ransackable_attributes(auth_object = nil)
-    [ "apodo", "banda_de_ala" ]
+    [ "apodo", "placa" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -85,7 +85,7 @@ class Gallo < ApplicationRecord
   end
 
   private
-  ransacker :banda_de_ala do
-    Arel.sql("cast(#{table_name}.banda_de_ala as CHAR)")
+  ransacker :placa do
+    Arel.sql("cast(#{table_name}.placa as CHAR)")
   end
 end

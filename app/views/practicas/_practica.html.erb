@@ -2,7 +2,7 @@
 <tr class="hover:bg-gray-50">
 		<% unless @gallo %>
 				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-						<%= link_to practica.gallo.apodo.presence || "##{practica.gallo.banda_de_ala}",
+						<%= link_to practica.gallo.apodo.presence || "##{practica.gallo.placa}",
 						 gallo_path(practica.gallo),
 						 class: "text-blue-600 hover:text-blue-900" %>
 				</td>

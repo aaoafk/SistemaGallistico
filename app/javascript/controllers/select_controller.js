@@ -9,7 +9,7 @@ export default class extends Controller {
   connect () {
     $(this.element).select2({
       theme: 'classic',
-      placeholder: 'Buscar por banda...',
+      placeholder: 'Buscar por placa...',
       allowClear: true,
       width: '100%'
     })

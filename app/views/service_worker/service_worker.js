@@ -1,7 +1,7 @@
 // Load workbox runtime without a build step
 importScripts(
   'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js',
-	'https://cdn.jsdelivr.net/npm/idb@8.0.1/build/umd.min.js'
+  'https://cdn.jsdelivr.net/npm/idb@8.0.1/build/umd.min.js'
 )
 
 /// ////////////////////////////////////////////////////////////////////////////
@@ -65,31 +65,28 @@ function onActivate (event) {
 
 function onFetch (event) {
   const { request } = event
-  logServiceWorkerStatus(`Current request: ${request}`)
-  logServiceWorkerStatus(`Fetching url: ${request.url}. Using cache: ${request.cache}`)
 }
 
 function logServiceWorkerStatus (msg) {
   console.log(`[ServiceWorker] :: ${msg}`)
 }
 
-// Define pretty print function outside of the main function
-function prettyPrintRecord(d) {
-  for (const [k, v] of Object.entries(d)) {
-    console.log(`${k}: ${v}`);
-  }
-}
-
-async function syncOfflineFormData() {
+async function syncOfflineFormData () {
   try {
     // Open the database
-    const db = await idb.openDB('sg-app-db');
-    
+    const db = await idb.openDB('sg-app-db')
+
+    if (db) {
+      console.log('Database initialized!')
+    } else {
+      console.error('Failed to initialize database.')
+    }
+
     // Retrieve persisted offline forms
     const persistedOfflineForms = await db.getAllFromIndex(
-      'persisted-offline-form-data', 
+      'persisted-offline-form-data',
       'submittedAt'
-    );
+    )
 
     // Check if there are any offline forms to sync
     if (persistedOfflineForms && persistedOfflineForms.length > 0) {
@@ -100,13 +97,13 @@ async function syncOfflineFormData() {
           const railsFormData = {
             authenticity_token: formData.authenticity_token,
             gallo: {
-              banda_de_ala: formData['gallo[banda_de_ala]'] || formData.banda_de_ala,
+              placa: formData['gallo[placa]'] || formData.placa,
               weight_pounds: formData['gallo[weight_pounds]'] || formData.weight_pounds,
               weight_ounces: formData['gallo[weight_ounces]'] || formData.weight_ounces,
               genero: formData['gallo[genero]'] || formData.genero,
               apodo: formData['gallo[apodo]'] || formData.apodo
             }
-          };
+          }
 
           // Submission with appropriate headers
           const response = await fetch('/gallos', {
@@ -114,42 +111,56 @@ async function syncOfflineFormData() {
             body: JSON.stringify(railsFormData),
             headers: {
               'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              Accept: 'application/json'
             }
-          });
+          })
 
           if (!response.ok) {
             // Parse error response for more detailed information
-            const errorBody = await response.text();
-            throw new Error(`Submission failed: ${errorBody}`);
+            const errorBody = await response.text()
+            throw new Error(`Submission failed: ${errorBody}`)
+          } else {
+            const successBody = await response.text()
+            console.log(`Submission succeeded: ${successBody}`)
           }
 
           // If successful, remove the record from IndexedDB
-          await db.delete('persisted-offline-form-data', formData.id);
+          await db.delete('persisted-offline-form-data', formData.id)
         } catch (submissionError) {
-          console.error('Failed to submit offline form:', submissionError);
+          console.error('Failed to submit offline form:', submissionError)
           // Optionally, mark the record for later retry
         }
-      });
+      })
 
       // Wait for all submissions to complete
-      await Promise.all(submissions);
-
+      await Promise.all(submissions)
     } else {
-      console.log('No offline forms to synchronize');
+      console.log('No offline forms to synchronize')
     }
   } catch (error) {
-    console.error('Error during offline form synchronization:', error);
+    console.error('Error during offline form synchronization:', error)
   }
 }
 
-function onSync(event) {
+function onPeriodicSync (event) {
   // Implement
-	if (event.tag === 'sync-forms') {
-		event.waitUntil(syncOfflineFormData())
-	}
+  if (event.tag === 'sync-forms') {
+    event.waitUntil(syncOfflineFormData())
+  } else {
+    console.log(`Unknown sync event: ${event.tag}`)
+  }
 }
+
+/// ////////////////////////////////////////////////////////////////////////////
+//                             Utility functions                              //
+/// ////////////////////////////////////////////////////////////////////////////
+function prettyPrintRecord (d) {
+  for (const [k, v] of Object.entries(d)) {
+    console.log(`${k}: ${v}`)
+  }
+}
+
 self.addEventListener('install', onInstall)
 self.addEventListener('activate', onActivate)
 self.addEventListener('fetch', onFetch)
-self.addEventListener('sync', onSync)
+self.addEventListener('periodicsync', onPeriodicSync)

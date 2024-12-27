@@ -70,6 +70,7 @@ export const offlineBehavior = controller => {
         }
       } else {
         console.log('User is online. No need to opendb()')
+				return false
       }
     },
     async submit (event) {
@@ -93,7 +94,6 @@ export const offlineBehavior = controller => {
       // If online, proceed with normal submission
       const userIsConnectedToInternet = await this.isOnline()
       if (userIsConnectedToInternet) {
-
       } else {
         // Intialize connection to IDBDatabase
         const idbConnected = await this.IDBConnect()
@@ -101,10 +101,7 @@ export const offlineBehavior = controller => {
           // Collect form data
           // Get everything from the form
           const data = Object.fromEntries(new FormData(event.target).entries())
-          console.log('Captured form data:')
-          for (const [key, value] of Object.entries(data)) {
-            console.log(`${key}: ${value}`)
-          }
+
           // Validate form
           const validationResult = this.checkFormValid(data)
 
@@ -116,10 +113,14 @@ export const offlineBehavior = controller => {
 
           // Offline handling - save to IndexedDB
           try {
-            await this.db.add('persisted-offline-form-data', {
+            const res = await this.db.add('persisted-offline-form-data', {
               ...data,
               submittedAt: Date.now()
             })
+						if (res) {
+							// Redirect back
+							window.location.href = '/gallos'
+						}
           } catch (error) {
             console.error('Failed to save offline form data', error)
             return false
@@ -141,7 +142,7 @@ export const offlineBehavior = controller => {
 
       // Create temporary Gallo object with cleaned data
       const tempGallo = {
-        banda_de_ala: transformedData.banda_de_ala,
+        placa: transformedData.placa,
         weight_pounds: transformedData.weight_pounds,
         weight_ounces: transformedData.weight_ounces,
         genero: transformedData.genero,
@@ -166,10 +167,10 @@ export const offlineBehavior = controller => {
       // Validate required fields
       const validations = [
         {
-          field: 'banda_de_ala',
+          field: 'placa',
           validate: () => {
-            if (!tempGallo.banda_de_ala || parseInt(tempGallo.banda_de_ala) <= 0) {
-              tempGallo.errors.add('banda_de_ala', 'La banda de ala debe estar presente')
+            if (!tempGallo.placa || parseInt(tempGallo.placa) <= 0) {
+              tempGallo.errors.add('placa', 'La placa debe estar presente')
               return false
             }
             return true

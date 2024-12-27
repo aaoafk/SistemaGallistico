@@ -6,8 +6,8 @@
 		<%= search_form_for @q do |f| %>
 				<div class="mb-4 flex items-center space-x-4">
 						<div class="flex-grow">
-								<%= f.search_field :banda_de_ala_or_apodo_i_cont, 
-								placeholder: "Buscar por banda o apodo", 
+								<%= f.search_field :placa_or_apodo_i_cont, 
+								placeholder: "Buscar por placa o apodo", 
 								class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
 						</div>
 						<%= f.submit "Buscar Pollos!", 
@@ -27,7 +27,7 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Banda</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Placa</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apodo</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peso</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Género</th>

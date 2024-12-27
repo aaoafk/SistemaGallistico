@@ -20,7 +20,7 @@ user = User.create!(
   # Create a rooster with a 50% chance of having a nickname
   Gallo.create!(
     user: user,
-    banda_de_ala: rand(1000..9999),  # 4-digit band number
+    placa: rand(1000..9999),  # 4-digit band number
     peso: rand(1800..2500),          # Weight in grams
     genero: [ :gallo, :gallina ].sample,
     apodo: [ Faker::FunnyName.name, nil ].sample  # 50% chance of having a nickname

@@ -20,7 +20,7 @@
 					 options_from_collection_for_select(
 							 Gallo.all,
 							 :id,
-							 ->(gallo) { "#{gallo.banda_de_ala} #{gallo.apodo if gallo.apodo.present?}" },
+							 ->(gallo) { "#{gallo.placa} #{gallo.apodo if gallo.apodo.present?}" },
 							 practica.gallo_id
 					 ),
          { include_blank: "Selecciona un gallo" },

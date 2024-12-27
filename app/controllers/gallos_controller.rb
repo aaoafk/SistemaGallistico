@@ -31,7 +31,7 @@ class GallosController < ApplicationController
 
     respond_to do |format|
       if @gallo.save
-        format.html { redirect_to gallos_path, notice: "Gallo creado exitosamente." }
+        format.html { redirect_to gallo_path(@gallo), notice: "Gallo creado exitosamente." }
         format.json { 
           render json: { 
                    status: 'success', 
@@ -63,6 +63,6 @@ class GallosController < ApplicationController
   private
 
   def gallo_params
-    params.require(:gallo).permit(:banda_de_ala, :weight_pounds, :weight_ounces, :genero, :apodo)
+    params.require(:gallo).permit(:placa, :weight_pounds, :weight_ounces, :genero, :apodo)
   end
 end

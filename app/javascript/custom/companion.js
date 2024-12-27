@@ -3,7 +3,7 @@
 if (navigator.serviceWorker) {
   navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
     .then(serviceWorkerReady)
-    .then(registerBackgroundSync)
+    .then(registerPeriodicBackgroundSync)
     .then(logCompanionStatus('Service worker registered!'))
 }
 
@@ -14,10 +14,12 @@ function serviceWorkerReady () {
   }
 }
 
-function registerBackgroundSync (registration) {
+function registerPeriodicBackgroundSync (registration) {
   if (registration) {
     if ('SyncManager' in window) {
-      registration.sync.register('sync-forms')
+			registration.periodicSync.register('sync-forms', {
+				minInterval: 5 * 60 * 1000, // 5 minutes
+			});
     } else {
       window.alert('This browser does not support background sync.')
     }

@@ -10,7 +10,8 @@ Rails.application.configure do
     policy.font_src    :self, :https, :data
     policy.img_src     :self, :https, :data
     policy.object_src  :none
-    policy.script_src  :self, :http, :https, "https://storage.googleapis.com", "https://cdnjs.cloudflare.com"
+    policy.script_src  :self, :http, :https, "https://storage.googleapis.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"
+    policy.script_src_elem :self, :http, :https, "https://storage.googleapis.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"
     policy.style_src   :self, :https
     # Specify URI for violation reports
     # policy.report_uri "/csp-violation-report-endpoint"
@@ -19,7 +20,7 @@ Rails.application.configure do
   # Generate session nonces for permitted importmap, inline scripts, and inline styles.
   config.content_security_policy_nonce_generator = ->(request) { SecureRandom.base64(16) }
 
-  config.content_security_policy_nonce_directives = %w[script-src style-src]
+  config.content_security_policy_nonce_directives = %w[script-src style-src font-src script-src-elem]
 
   # Report violations without enforcing the policy.
   # config.content_security_policy_report_only = true

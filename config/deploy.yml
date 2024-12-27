@@ -2,12 +2,13 @@
 service: sistema_gallistico
 
 # Name of the container image.
-image: your-user/sistema_gallistico
+image: kamal/sistema_gallistico
 
 # Deploy to these servers.
+
 servers:
   web:
-    - 192.168.0.1
+    - 142.93.49.43 
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -17,19 +18,21 @@ servers:
 # Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
 #
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
-proxy:
-  ssl: true
-  host: app.example.com
+proxy: false
 
 # Credentials for your image host.
+
+# TODO: Set up digital ocean garbage collection
 registry:
   # Specify the registry server, if you're not using Docker Hub
   # server: registry.digitalocean.com / ghcr.io / ...
-  username: your-user
+  server: registry.digitalocean.com
 
   # Always use an access token rather than real password when possible.
+  username:
+    - DO_ACCESS_TOKEN
   password:
-    - KAMAL_REGISTRY_PASSWORD
+    - DO_ACCESS_TOKEN
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
@@ -88,8 +91,10 @@ builder:
   #   - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
-# ssh:
-#   user: app
+ssh:
+  user: root
+  keys_only: true
+  keys: [ "~/.ssh/sistema-gallistico-app-ssh-key.pem"]
 
 # Use accessory services (secrets come from .kamal/secrets).
 # accessories:
