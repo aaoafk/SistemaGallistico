@@ -32,20 +32,20 @@ class GallosController < ApplicationController
     respond_to do |format|
       if @gallo.save
         format.html { redirect_to gallo_path(@gallo), notice: "Gallo creado exitosamente." }
-        format.json { 
-          render json: { 
-                   status: 'success', 
-                   message: "Gallo creado exitosamente.", 
-                   gallo: @gallo 
-                 }, status: :created 
+        format.json {
+          render json: {
+                   status: "success",
+                   message: "Gallo creado exitosamente.",
+                   gallo: @gallo
+                 }, status: :created
         }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { 
-          render json: { 
-                   status: 'error', 
-                   errors: @gallo.errors.full_messages 
-                 }, status: :unprocessable_entity 
+        format.json {
+          render json: {
+                   status: "error",
+                   errors: @gallo.errors.full_messages
+                 }, status: :unprocessable_entity
         }
       end
     end

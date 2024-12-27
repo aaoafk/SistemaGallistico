@@ -12,7 +12,7 @@ Rails.application.configure do
     policy.object_src  :none
     policy.script_src  :self, :http, :https, "https://storage.googleapis.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"
     policy.script_src_elem :self, :http, :https, "https://storage.googleapis.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"
-    policy.style_src   :self, :https
+    policy.style_src :self, :https
     # Specify URI for violation reports
     # policy.report_uri "/csp-violation-report-endpoint"
   end
