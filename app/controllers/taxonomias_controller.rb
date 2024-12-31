@@ -1,7 +1,7 @@
 class TaxonomiasController < ApplicationController
   # Common setup actions for individual record operations
-  before_action :set_taxonomia, only: [:show, :edit, :update, :destroy]
-  
+  before_action :set_taxonomia, only: [ :show, :edit, :update, :destroy ]
+
   # Optional: Add authentication if needed
   # before_action :authenticate_user!
 
@@ -28,7 +28,7 @@ class TaxonomiasController < ApplicationController
     @taxonomia = GalloTaxonomia.new(taxonomia_params)
 
     if @taxonomia.save
-      redirect_to @taxonomia, notice: 'Taxonomía creada exitosamente.'
+      redirect_to taxonomia_path(@taxonomia), notice: "Taxonomía creada exitosamente."
     else
       render :new, status: :unprocessable_entity
     end
@@ -42,7 +42,7 @@ class TaxonomiasController < ApplicationController
   # PATCH/PUT /taxonomias/:id
   def update
     if @taxonomia.update(taxonomia_params)
-      redirect_to @taxonomia, notice: 'Taxonomía actualizada exitosamente.'
+      redirect_to @taxonomia, notice: "Taxonomía actualizada exitosamente."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -51,7 +51,7 @@ class TaxonomiasController < ApplicationController
   # DELETE /taxonomias/:id
   def destroy
     @taxonomia.destroy
-    redirect_to taxonomias_url, notice: 'Taxonomía eliminada exitosamente.'
+    redirect_to taxonomias_url, notice: "Taxonomía eliminada exitosamente."
   end
 
   private

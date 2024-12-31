@@ -100,7 +100,7 @@ puts "Creating second generation relationships..."
   # Randomly select parents from the original generation
   padre = padres_originales.sample
   madre = madres_originales.sample
-  
+
   GalloTaxonomia.create!(
     gallo: hijo,
     padre: padre,
@@ -120,9 +120,9 @@ gallinas_restantes = gallinas - madres_originales - gallinas_segunda_generacion
   # Select parents from second generation
   padre = gallos_segunda_generacion.sample
   madre = gallinas_segunda_generacion.sample
-  
+
   next unless padre && madre # Skip if we don't have available parents
-  
+
   GalloTaxonomia.create!(
     gallo: hijo,
     padre: padre,

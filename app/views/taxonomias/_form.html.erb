@@ -1,0 +1,47 @@
+<%= form_with(model: taxonomia, scope: :taxonomia, url: taxonomia.new_record? ? taxonomias_path : taxonomia_path(taxonomia), class: "space-y-6") do |form| %>
+  <%# Display error messages if any %>
+  <% if taxonomia.errors.any? %>
+    <div class="bg-red-50 p-4 rounded-md">
+      <h2 class="text-red-800 text-sm font-medium">
+        <%= pluralize(taxonomia.errors.count, "error") %> prohibited this taxonomía from being saved:
+      </h2>
+      <ul class="mt-2 text-red-700 text-sm list-disc list-inside">
+        <% taxonomia.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%# Gallo Selection %>
+  <div>
+    <%= form.label :gallo_id, "Gallo", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= form.collection_select :gallo_id, Gallo.all, :id, :placa, 
+        { prompt: "Selecciona un gallo" },
+        class: "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+  </div>
+
+  <%# Padre Selection %>
+  <div>
+    <%= form.label :padre_id, "Padre", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= form.collection_select :padre_id, Gallo.where(genero: :gallo), :id, :placa, 
+        { prompt: "Selecciona un padre (opcional)", include_blank: true },
+        class: "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+  </div>
+
+  <%# Madre Selection %>
+  <div>
+    <%= form.label :madre_id, "Madre", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= form.collection_select :madre_id, Gallo.where(genero: :gallina), :id, :placa, 
+        { prompt: "Selecciona una madre (opcional)", include_blank: true },
+        class: "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+  </div>
+
+  <%# Form actions %>
+  <div class="flex items-center justify-end space-x-4">
+    <%= link_to "Cancelar", taxonomias_path, 
+        class: "px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900" %>
+    <%= form.submit taxonomia.new_record? ? "Crear Taxonomía" : "Actualizar Taxonomía", 
+        class: "px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+  </div>
+<% end %>

@@ -14,12 +14,12 @@ class Gallo < ApplicationRecord
   has_many :historial_duenos, dependent: :destroy
   has_many :duenos, through: :historial_duenos
 
- # Parent relationship
-  has_one :taxonomia, class_name: 'GalloTaxonomia'
-  
+  # Parent relationship
+  has_one :taxonomia, class_name: "GalloTaxonomia"
+
   # Child relationships
-  has_many :hijos_como_padre, class_name: 'GalloTaxonomia', foreign_key: :padre_id
-  has_many :hijos_como_madre, class_name: 'GalloTaxonomia', foreign_key: :madre_id
+  has_many :hijos_como_padre, class_name: "GalloTaxonomia", foreign_key: :padre_id
+  has_many :hijos_como_madre, class_name: "GalloTaxonomia", foreign_key: :madre_id
 
 
 
@@ -92,10 +92,10 @@ class Gallo < ApplicationRecord
     self.weight_ounces = total_ounces % 16
   end
 
-# Convenience methods to work with parentage
+  # Convenience methods to work with parentage
   def padres
     return [] unless taxonomia
-    [taxonomia.padre, taxonomia.madre].compact
+    [ taxonomia.padre, taxonomia.madre ].compact
   end
 
   def hijos
