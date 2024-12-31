@@ -71,3 +71,71 @@ active_gallos.each do |gallo|
     )
   end
 end
+
+###############################################################################
+#                         Create Family Relationships                         #
+###############################################################################
+
+# First, let's separate our gallos by gender for easier family tree creation
+gallos_machos = Gallo.where(genero: :gallo)
+gallinas = Gallo.where(genero: :gallina)
+
+puts "Creating family relationships..."
+puts "Found #{gallos_machos.count} gallos and #{gallinas.count} gallinas for breeding"
+
+# Let's create three generations of gallos
+# First, let's identify some original parents (first generation)
+padres_originales = gallos_machos.sample(3)
+madres_originales = gallinas.sample(3)
+
+# Create taxonomia records for second generation
+# We'll take some of our remaining gallos and assign them parents from the original generation
+gallos_segunda_generacion = (gallos_machos - padres_originales).sample(4)
+gallinas_segunda_generacion = (gallinas - madres_originales).sample(4)
+
+puts "Creating second generation relationships..."
+
+# Assign parents to second generation
+(gallos_segunda_generacion + gallinas_segunda_generacion).each do |hijo|
+  # Randomly select parents from the original generation
+  padre = padres_originales.sample
+  madre = madres_originales.sample
+  
+  GalloTaxonomia.create!(
+    gallo: hijo,
+    padre: padre,
+    madre: madre
+  )
+  puts "Created family record: #{hijo.placa} child of padre #{padre.placa} and madre #{madre.placa}"
+end
+
+# Create third generation from remaining gallos
+puts "Creating third generation relationships..."
+
+gallos_restantes = gallos_machos - padres_originales - gallos_segunda_generacion
+gallinas_restantes = gallinas - madres_originales - gallinas_segunda_generacion
+
+# Assign parents from second generation to remaining gallos
+(gallos_restantes + gallinas_restantes).each do |hijo|
+  # Select parents from second generation
+  padre = gallos_segunda_generacion.sample
+  madre = gallinas_segunda_generacion.sample
+  
+  next unless padre && madre # Skip if we don't have available parents
+  
+  GalloTaxonomia.create!(
+    gallo: hijo,
+    padre: padre,
+    madre: madre
+  )
+  puts "Created family record: #{hijo.placa} child of padre #{padre.placa} and madre #{madre.placa}"
+end
+
+# Print a summary of our family tree
+puts "\nFamily Tree Summary:"
+puts "--------------------"
+puts "Total family records created: #{GalloTaxonomia.count}"
+puts "Gallos without parents: #{Gallo.left_joins(:taxonomia).where(gallo_taxonomias: { id: nil }).count}"
+puts "Original parents (no parents themselves):"
+puts "- Padres: #{padres_originales.map(&:placa).join(', ')}"
+puts "- Madres: #{madres_originales.map(&:placa).join(', ')}"

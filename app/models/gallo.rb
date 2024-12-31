@@ -14,6 +14,14 @@ class Gallo < ApplicationRecord
   has_many :historial_duenos, dependent: :destroy
   has_many :duenos, through: :historial_duenos
 
+ # Parent relationship
+  has_one :taxonomia, class_name: 'GalloTaxonomia'
+  
+  # Child relationships
+  has_many :hijos_como_padre, class_name: 'GalloTaxonomia', foreign_key: :padre_id
+  has_many :hijos_como_madre, class_name: 'GalloTaxonomia', foreign_key: :madre_id
+
+
 
   #############################################################################
   #                                Validations                                #
@@ -82,6 +90,21 @@ class Gallo < ApplicationRecord
     # Split into pounds and remaining ounces
     self.weight_pounds = total_ounces / 16
     self.weight_ounces = total_ounces % 16
+  end
+
+# Convenience methods to work with parentage
+  def padres
+    return [] unless taxonomia
+    [taxonomia.padre, taxonomia.madre].compact
+  end
+
+  def hijos
+    hijos_como_padre.map(&:gallo) + hijos_como_madre.map(&:gallo)
+  end
+
+  def set_parents(padre: nil, madre: nil)
+    build_taxonomia if taxonomia.nil?
+    taxonomia.update(padre: padre, madre: madre)
   end
 
   private

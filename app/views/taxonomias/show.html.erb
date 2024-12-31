@@ -1,0 +1,86 @@
+<div class="container mx-auto px-4 py-8">
+    <% if flash.present? %>
+        <%= render "shared/flash" %>
+    <% end %>
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="px-6 py-8">
+            <%# Header section with title and actions %>
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h1 class="text-3xl font-bold text-gray-900">
+                    Detalles de Taxonomía: 
+                    <%= @taxonomia.gallo.placa if @taxonomia.gallo %>
+                </h1>
+                <div class="flex space-x-3">
+                    <%= link_to "Editar", edit_taxonomia_path(@taxonomia), 
+                        class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" %>
+                    <%= link_to "Volver", taxonomias_path, 
+                        class: "bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg" %>
+                </div>
+            </div>
+
+            <%# Gallo Information Section %>
+            <div class="grid md:grid-cols-2 gap-6">
+                <%# Left Column: Gallo Details %>
+                <div>
+                    <h2 class="text-xl font-semibold mb-4 text-gray-700">Información del Gallo</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between border-b pb-2">
+                            <span class="text-gray-600">Placa:</span>
+                            <%= link_to @taxonomia.gallo.placa, gallo_path(@taxonomia.gallo), 
+                                class: "font-medium text-blue-600" if @taxonomia.gallo %>
+                        </div>
+                        <div class="flex justify-between border-b pb-2">
+                            <span class="text-gray-600">Apodo:</span>
+                            <span><%= @taxonomia.gallo.apodo if @taxonomia.gallo %></span>
+                        </div>
+                        <div class="flex justify-between border-b pb-2">
+                            <span class="text-gray-600">Género:</span>
+                            <span><%= @taxonomia.gallo.genero.capitalize if @taxonomia.gallo %></span>
+                        </div>
+                    </div>
+                </div>
+
+                <%# Right Column: Parentage Information %>
+                <div>
+                    <h2 class="text-xl font-semibold mb-4 text-gray-700">Información de Parentesco</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between border-b pb-2">
+                            <span class="text-gray-600">Padre:</span>
+                            <% if @taxonomia.padre %>
+                                <%= link_to @taxonomia.padre.placa, gallo_path(@taxonomia.padre), 
+                                    class: "font-medium text-blue-600" %>
+                            <% else %>
+                                <span class="text-gray-400">No registrado</span>
+                            <% end %>
+                        </div>
+                        <div class="flex justify-between border-b pb-2">
+                            <span class="text-gray-600">Madre:</span>
+                            <% if @taxonomia.madre %>
+                                <%= link_to @taxonomia.madre.placa, gallo_path(@taxonomia.madre), 
+                                    class: "font-medium text-blue-600" %>
+                            <% else %>
+                                <span class="text-gray-400">No registrada</span>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%# Additional Details and Metadata %>
+            <div class="mt-8 pt-6 border-t">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Información Adicional</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <span class="text-gray-600">Fecha de Creación:</span>
+                        <%= @taxonomia.created_at.strftime("%d/%m/%Y %H:%M") %>
+                    </div>
+                    <div>
+                        <span class="text-gray-600">Última Actualización:</span>
+                        <%= @taxonomia.updated_at.strftime("%d/%m/%Y %H:%M") %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

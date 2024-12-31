@@ -10,12 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_25_175519) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_31_145943) do
   create_table "duenos", force: :cascade do |t|
     t.string "nombre"
     t.string "apellido"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "gallo_taxonomias", force: :cascade do |t|
+    t.integer "gallo_id"
+    t.integer "padre_id"
+    t.integer "madre_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gallo_id"], name: "index_gallo_taxonomias_on_gallo_id", unique: true
+    t.index ["madre_id"], name: "index_gallo_taxonomias_on_madre_id"
+    t.index ["padre_id"], name: "index_gallo_taxonomias_on_padre_id"
   end
 
   create_table "gallos", force: :cascade do |t|
@@ -57,6 +68,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_25_175519) do
     t.string "password_digest"
   end
 
+  add_foreign_key "gallo_taxonomia", "gallos"
+  add_foreign_key "gallo_taxonomias", "gallos"
+  add_foreign_key "gallo_taxonomias", "gallos", column: "madre_id"
+  add_foreign_key "gallo_taxonomias", "gallos", column: "padre_id"
   add_foreign_key "gallos", "users"
   add_foreign_key "historial_duenos", "duenos"
   add_foreign_key "historial_duenos", "gallos"

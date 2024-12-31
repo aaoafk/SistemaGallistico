@@ -1,0 +1,28 @@
+<tr>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <div class="flex items-center">
+            <div class="ml-4">
+                <div class="text-sm font-medium text-gray-900">
+                    <%= link_to taxonomia.gallo.placa, gallo_path(taxonomia.gallo) if taxonomia.gallo %>
+                </div>
+                <div class="text-sm text-gray-500">
+                    <%= taxonomia.gallo&.apodo %>
+                </div>
+            </div>
+        </div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <div class="text-sm text-gray-900">
+            <%= link_to taxonomia.padre.placa, gallo_path(taxonomia.padre) if taxonomia.padre %>
+        </div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <div class="text-sm text-gray-900">
+            <%= link_to taxonomia.madre.placa, gallo_path(taxonomia.madre) if taxonomia.madre %>
+        </div>
+    </td>
+    <%# ... existing row content ... %>
+		<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+        <%= render 'taxonomia_actions', taxonomia: taxonomia %>
+    </td>
+</tr>

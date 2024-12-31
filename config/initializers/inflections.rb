@@ -14,3 +14,14 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym "RESTful"
 # end
+# config/initializers/inflections.rb
+
+# ActiveSupport::Inflector rules help Rails understand how to convert between
+# singular and plural forms of words. This is crucial for model names and database tables.
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  # Tell Rails that "taxonomia" becomes "taxonomias" in plural
+  inflect.irregular 'taxonomia', 'taxonomias'
+  
+  # If you have more Spanish words that need custom rules, add them here:
+  # inflect.irregular 'gallo', 'gallos'  # Though this one works by default!
+end
