@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/aaoafk/kamal-cloud-patch.git
-  revision: 5bad449c736b228bcb12ce325cb14036c7fc0773
+  revision: cf799af7d897ec5ee665e8248097f0435fb3388b
   branch: main
   specs:
     kamal (2.4.0)
