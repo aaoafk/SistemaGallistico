@@ -68,7 +68,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_145943) do
     t.string "password_digest"
   end
 
-  add_foreign_key "gallo_taxonomia", "gallos"
   add_foreign_key "gallo_taxonomias", "gallos"
   add_foreign_key "gallo_taxonomias", "gallos", column: "madre_id"
   add_foreign_key "gallo_taxonomias", "gallos", column: "padre_id"
