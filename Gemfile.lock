@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: f22a4561f07e869fa61bb6ba530094aa393350d1
+  revision: d19c9e2eaf2c4ac483f68b6ba1db42fca0926506
   branch: 8-0-stable
   specs:
     actioncable (8.0.2)
@@ -254,7 +254,7 @@ GEM
       activerecord (>= 6.1.5)
       activesupport (>= 6.1.5)
       i18n
-    rdoc (6.13.0)
+    rdoc (6.13.1)
       psych (>= 4.0.0)
     regexp_parser (2.10.0)
     reline (0.6.0)
